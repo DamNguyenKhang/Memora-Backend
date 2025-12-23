@@ -16,7 +16,14 @@ namespace API
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("FrontendPolicy",
+                    policy => policy.WithOrigins(builder.Configuration["FRONTEND_URL"] ?? "http://localhost:3000")
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod());
+            });
+                builder.Services.AddControllers();
             builder.Configuration
                 .AddEnvironmentVariables();
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -63,12 +70,10 @@ namespace API
             app.UseHttpsRedirection();
             app.UseExceptionHandler();
 
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
+            app.UseCors("FrontendPolicy");
+                app.UseAuthorization();
+                app.MapControllers();
+                app.Run();
         }
     }
 }
