@@ -1,4 +1,6 @@
-﻿using Application.Exceptions;
+﻿using Application.Abstractions.Services;
+using Application.Exceptions;
+using Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application
@@ -14,6 +16,7 @@ namespace Application
                 }
             );
             services.AddAutoMapper(typeof(DependencyInjection).Assembly);
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             return services;
         }
 

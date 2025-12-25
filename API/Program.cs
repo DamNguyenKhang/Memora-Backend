@@ -13,6 +13,7 @@ namespace API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
             // Add services to the container.
 
@@ -23,7 +24,8 @@ namespace API
                                     .AllowAnyHeader()
                                     .AllowAnyMethod());
             });
-                builder.Services.AddControllers();
+            builder.Services.AddControllers();
+            DotNetEnv.Env.Load();
             builder.Configuration
                 .AddEnvironmentVariables();
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -42,7 +44,7 @@ namespace API
                     };
                 });
             builder.Services
-                .AddDatabase(builder.Configuration.GetConnectionString("DefaultConnection"))
+                .AddDatabase(connectionString!)
                 .AddApplication()
                 .AddExceptionHandler()
                 .AddPersistence()
@@ -71,9 +73,9 @@ namespace API
             app.UseExceptionHandler();
 
             app.UseCors("FrontendPolicy");
-                app.UseAuthorization();
-                app.MapControllers();
-                app.Run();
+            app.UseAuthorization();
+            app.MapControllers();
+            app.Run();
         }
     }
 }

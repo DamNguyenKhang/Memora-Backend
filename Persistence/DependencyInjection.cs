@@ -9,11 +9,11 @@ namespace Persistence
     {
         public static IServiceCollection AddPersistence(this IServiceCollection services)
         {
-            //services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
 
-        public static IServiceCollection AddDatabase(this IServiceCollection services, string? connectionString)
+        public static IServiceCollection AddDatabase(this IServiceCollection services, string connectionString)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));

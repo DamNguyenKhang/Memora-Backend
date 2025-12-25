@@ -3,16 +3,28 @@
   "WorkspaceRootPath": "E:\\demo\\Memora\\Memora-Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AA755036-5CD1-4E15-B316-161B511232E0}|Application\\Application.csproj|e:\\demo\\memora\\memora-backend\\application\\services\\authenticationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA755036-5CD1-4E15-B316-161B511232E0}|Application\\Application.csproj|solutionrelative:application\\services\\authenticationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B1F60F2F-1FDA-4B77-889E-6D307F480B7E}|API\\API.csproj|e:\\demo\\memora\\memora-backend\\api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B1F60F2F-1FDA-4B77-889E-6D307F480B7E}|API\\API.csproj|solutionrelative:api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B1F60F2F-1FDA-4B77-889E-6D307F480B7E}|API\\API.csproj|e:\\demo\\memora\\memora-backend\\api\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B1F60F2F-1FDA-4B77-889E-6D307F480B7E}|API\\API.csproj|solutionrelative:api\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B9A40424-8F7D-42BB-B6B4-D7B43C67F8B0}|Persistence\\Persistence.csproj|e:\\demo\\memora\\memora-backend\\persistence\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B9A40424-8F7D-42BB-B6B4-D7B43C67F8B0}|Persistence\\Persistence.csproj|solutionrelative:persistence\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9A40424-8F7D-42BB-B6B4-D7B43C67F8B0}|Persistence\\Persistence.csproj|e:\\demo\\memora\\memora-backend\\persistence\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9A40424-8F7D-42BB-B6B4-D7B43C67F8B0}|Persistence\\Persistence.csproj|solutionrelative:persistence\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9A40424-8F7D-42BB-B6B4-D7B43C67F8B0}|Persistence\\Persistence.csproj|e:\\demo\\memora\\memora-backend\\persistence\\persistence.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{B9A40424-8F7D-42BB-B6B4-D7B43C67F8B0}|Persistence\\Persistence.csproj|solutionrelative:persistence\\persistence.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1F60F2F-1FDA-4B77-889E-6D307F480B7E}|API\\API.csproj|e:\\demo\\memora\\memora-backend\\api\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{B1F60F2F-1FDA-4B77-889E-6D307F480B7E}|API\\API.csproj|solutionrelative:api\\.env||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA755036-5CD1-4E15-B316-161B511232E0}|Application\\Application.csproj|e:\\demo\\memora\\memora-backend\\application\\services\\authenticationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA755036-5CD1-4E15-B316-161B511232E0}|Application\\Application.csproj|solutionrelative:application\\services\\authenticationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AA755036-5CD1-4E15-B316-161B511232E0}|Application\\Application.csproj|e:\\demo\\memora\\memora-backend\\application\\abstractions\\repositories\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -21,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{B9A40424-8F7D-42BB-B6B4-D7B43C67F8B0}|Persistence\\Persistence.csproj|e:\\demo\\memora\\memora-backend\\persistence\\repositories\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B9A40424-8F7D-42BB-B6B4-D7B43C67F8B0}|Persistence\\Persistence.csproj|solutionrelative:persistence\\repositories\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B9A40424-8F7D-42BB-B6B4-D7B43C67F8B0}|Persistence\\Persistence.csproj|e:\\demo\\memora\\memora-backend\\persistence\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B9A40424-8F7D-42BB-B6B4-D7B43C67F8B0}|Persistence\\Persistence.csproj|solutionrelative:persistence\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B1F60F2F-1FDA-4B77-889E-6D307F480B7E}|API\\API.csproj|e:\\demo\\memora\\memora-backend\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -79,16 +87,16 @@
       "RelativeMoniker": "D:0:0:{B1F60F2F-1FDA-4B77-889E-6D307F480B7E}|API\\API.csproj|solutionrelative:api\\api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B9A40424-8F7D-42BB-B6B4-D7B43C67F8B0}|Persistence\\Persistence.csproj|e:\\demo\\memora\\memora-backend\\persistence\\persistence.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{B9A40424-8F7D-42BB-B6B4-D7B43C67F8B0}|Persistence\\Persistence.csproj|solutionrelative:persistence\\persistence.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B2887A57-B311-4804-8CB0-FEF4EF486DE1}|Domain\\Domain.csproj|e:\\demo\\memora\\memora-backend\\domain\\entities\\ientity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B2887A57-B311-4804-8CB0-FEF4EF486DE1}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\ientity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B2887A57-B311-4804-8CB0-FEF4EF486DE1}|Domain\\Domain.csproj|e:\\demo\\memora\\memora-backend\\domain\\domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{B2887A57-B311-4804-8CB0-FEF4EF486DE1}|Domain\\Domain.csproj|solutionrelative:domain\\domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\demo\\Memora\\Memora-Backend\\API\\Controllers\\WeatherForecastController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:API\\Controllers\\WeatherForecastController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -98,7 +106,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -114,43 +122,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "WeatherForecastController.cs",
-              "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\API\\Controllers\\WeatherForecastController.cs",
-              "RelativeDocumentMoniker": "API\\Controllers\\WeatherForecastController.cs",
-              "ToolTip": "E:\\demo\\Memora\\Memora-Backend\\API\\Controllers\\WeatherForecastController.cs",
-              "RelativeToolTip": "API\\Controllers\\WeatherForecastController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAXAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "AuthenticationController.cs",
+              "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\API\\Controllers\\AuthenticationController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\AuthenticationController.cs",
+              "ToolTip": "E:\\demo\\Memora\\Memora-Backend\\API\\Controllers\\AuthenticationController.cs",
+              "RelativeToolTip": "API\\Controllers\\AuthenticationController.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABYAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-22T04:40:36.199Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "ErrorCode.cs",
-              "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Application\\Exceptions\\ErrorCode.cs",
-              "RelativeDocumentMoniker": "Application\\Exceptions\\ErrorCode.cs",
-              "ToolTip": "E:\\demo\\Memora\\Memora-Backend\\Application\\Exceptions\\ErrorCode.cs",
-              "RelativeToolTip": "Application\\Exceptions\\ErrorCode.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABNAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T07:12:48.782Z"
+              "WhenOpened": "2025-12-25T09:47:18.097Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Repository.cs",
-              "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Persistence\\Repositories\\Repository.cs",
-              "RelativeDocumentMoniker": "Persistence\\Repositories\\Repository.cs",
-              "ToolTip": "E:\\demo\\Memora\\Memora-Backend\\Persistence\\Repositories\\Repository.cs",
-              "RelativeToolTip": "Persistence\\Repositories\\Repository.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAowD4AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T06:29:34.94Z"
+              "Title": ".env",
+              "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\API\\.env",
+              "RelativeDocumentMoniker": "API\\.env",
+              "ToolTip": "E:\\demo\\Memora\\Memora-Backend\\API\\.env",
+              "RelativeToolTip": "API\\.env",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-12-25T09:43:51.188Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "appsettings.json",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\API\\appsettings.json",
               "RelativeDocumentMoniker": "API\\appsettings.json",
@@ -158,23 +156,25 @@
               "RelativeToolTip": "API\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-12-21T07:25:08.529Z"
+              "WhenOpened": "2025-12-21T07:25:08.529Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "DependencyInjection.cs",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Persistence\\DependencyInjection.cs",
               "RelativeDocumentMoniker": "Persistence\\DependencyInjection.cs",
               "ToolTip": "E:\\demo\\Memora\\Memora-Backend\\Persistence\\DependencyInjection.cs",
               "RelativeToolTip": "Persistence\\DependencyInjection.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwBcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwBIAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T03:58:57.31Z"
+              "WhenOpened": "2025-12-21T03:58:57.31Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "ValidationExceptionHandler.cs",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Application\\Exceptions\\ValidationExceptionHandler.cs",
               "RelativeDocumentMoniker": "Application\\Exceptions\\ValidationExceptionHandler.cs",
@@ -182,23 +182,25 @@
               "RelativeToolTip": "Application\\Exceptions\\ValidationExceptionHandler.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T07:13:24.364Z"
+              "WhenOpened": "2025-12-21T07:13:24.364Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Persistence\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "Persistence\\ApplicationDbContext.cs",
               "ToolTip": "E:\\demo\\Memora\\Memora-Backend\\Persistence\\ApplicationDbContext.cs",
               "RelativeToolTip": "Persistence\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAzwA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T06:53:21.736Z"
+              "WhenOpened": "2025-12-21T06:53:21.736Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\API\\Program.cs",
               "RelativeDocumentMoniker": "API\\Program.cs",
@@ -206,24 +208,75 @@
               "RelativeToolTip": "API\\Program.cs",
               "ViewState": "AgIAACMAAAAAAAAAAAAcwD0AAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T03:48:12.414Z"
+              "WhenOpened": "2025-12-21T03:48:12.414Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
+              "Title": "Persistence.csproj",
+              "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Persistence\\Persistence.csproj",
+              "RelativeDocumentMoniker": "Persistence\\Persistence.csproj",
+              "ToolTip": "E:\\demo\\Memora\\Memora-Backend\\Persistence\\Persistence.csproj",
+              "RelativeToolTip": "Persistence\\Persistence.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-21T03:48:42.418Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Repository.cs",
+              "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Persistence\\Repositories\\Repository.cs",
+              "RelativeDocumentMoniker": "Persistence\\Repositories\\Repository.cs",
+              "ToolTip": "E:\\demo\\Memora\\Memora-Backend\\Persistence\\Repositories\\Repository.cs",
+              "RelativeToolTip": "Persistence\\Repositories\\Repository.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAowD4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-21T06:29:34.94Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "AuthenticationService.cs",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Application\\Services\\AuthenticationService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\AuthenticationService.cs",
               "ToolTip": "E:\\demo\\Memora\\Memora-Backend\\Application\\Services\\AuthenticationService.cs",
               "RelativeToolTip": "Application\\Services\\AuthenticationService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAQwAkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-21T07:10:32.308Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
+              "Title": "ErrorCode.cs",
+              "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Application\\Exceptions\\ErrorCode.cs",
+              "RelativeDocumentMoniker": "Application\\Exceptions\\ErrorCode.cs",
+              "ToolTip": "E:\\demo\\Memora\\Memora-Backend\\Application\\Exceptions\\ErrorCode.cs",
+              "RelativeToolTip": "Application\\Exceptions\\ErrorCode.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-21T07:12:48.782Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "WeatherForecastController.cs",
+              "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\API\\Controllers\\WeatherForecastController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\WeatherForecastController.cs",
+              "ToolTip": "E:\\demo\\Memora\\Memora-Backend\\API\\Controllers\\WeatherForecastController.cs",
+              "RelativeToolTip": "API\\Controllers\\WeatherForecastController.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-22T04:40:36.199Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "GlobalExceptionHandler.cs",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Application\\Exceptions\\GlobalExceptionHandler.cs",
               "RelativeDocumentMoniker": "Application\\Exceptions\\GlobalExceptionHandler.cs",
@@ -231,11 +284,12 @@
               "RelativeToolTip": "Application\\Exceptions\\GlobalExceptionHandler.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAQwBMAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T07:13:01.916Z"
+              "WhenOpened": "2025-12-21T07:13:01.916Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "Application.csproj",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Application\\Application.csproj",
               "RelativeDocumentMoniker": "Application\\Application.csproj",
@@ -243,11 +297,12 @@
               "RelativeToolTip": "Application\\Application.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-12-21T03:48:14.185Z"
+              "WhenOpened": "2025-12-21T03:48:14.185Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "IRepository.cs",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Application\\Abstractions\\Repositories\\IRepository.cs",
               "RelativeDocumentMoniker": "Application\\Abstractions\\Repositories\\IRepository.cs",
@@ -255,11 +310,12 @@
               "RelativeToolTip": "Application\\Abstractions\\Repositories\\IRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwA0AAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T06:40:15.915Z"
+              "WhenOpened": "2025-12-21T06:40:15.915Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "DependencyInjection.cs",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Application\\DependencyInjection.cs",
               "RelativeDocumentMoniker": "Application\\DependencyInjection.cs",
@@ -267,11 +323,12 @@
               "RelativeToolTip": "Application\\DependencyInjection.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T03:53:48.918Z"
+              "WhenOpened": "2025-12-21T03:53:48.918Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "ApplicationException.cs",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Application\\Exceptions\\ApplicationException.cs",
               "RelativeDocumentMoniker": "Application\\Exceptions\\ApplicationException.cs",
@@ -279,11 +336,12 @@
               "RelativeToolTip": "Application\\Exceptions\\ApplicationException.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAUAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T07:11:35.348Z"
+              "WhenOpened": "2025-12-21T07:11:35.348Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "API.csproj",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\API\\API.csproj",
               "RelativeDocumentMoniker": "API\\API.csproj",
@@ -291,11 +349,12 @@
               "RelativeToolTip": "API\\API.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-12-21T06:24:17.234Z"
+              "WhenOpened": "2025-12-21T06:24:17.234Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "API.http",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\API\\API.http",
               "RelativeDocumentMoniker": "API\\API.http",
@@ -303,11 +362,12 @@
               "RelativeToolTip": "API\\API.http",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2025-12-21T07:41:01.444Z"
+              "WhenOpened": "2025-12-21T07:41:01.444Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "ApiResponse.cs",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Application\\DTOs\\Response\\ApiResponse.cs",
               "RelativeDocumentMoniker": "Application\\DTOs\\Response\\ApiResponse.cs",
@@ -315,11 +375,12 @@
               "RelativeToolTip": "Application\\DTOs\\Response\\ApiResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T07:44:03.912Z"
+              "WhenOpened": "2025-12-21T07:44:03.912Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "PageResponse.cs",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Application\\DTOs\\Response\\PageResponse.cs",
               "RelativeDocumentMoniker": "Application\\DTOs\\Response\\PageResponse.cs",
@@ -327,11 +388,12 @@
               "RelativeToolTip": "Application\\DTOs\\Response\\PageResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T07:45:01.783Z"
+              "WhenOpened": "2025-12-21T07:45:01.783Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "PageRequest.cs",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Application\\DTOs\\Request\\PageRequest.cs",
               "RelativeDocumentMoniker": "Application\\DTOs\\Request\\PageRequest.cs",
@@ -339,11 +401,12 @@
               "RelativeToolTip": "Application\\DTOs\\Request\\PageRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T07:45:15.041Z"
+              "WhenOpened": "2025-12-21T07:45:15.041Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "IEntity.cs",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Domain\\Entities\\IEntity.cs",
               "RelativeDocumentMoniker": "Domain\\Entities\\IEntity.cs",
@@ -351,11 +414,12 @@
               "RelativeToolTip": "Domain\\Entities\\IEntity.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAIBJwAgAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-21T06:27:28.421Z"
+              "WhenOpened": "2025-12-21T06:27:28.421Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "Domain.csproj",
               "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Domain\\Domain.csproj",
               "RelativeDocumentMoniker": "Domain\\Domain.csproj",
@@ -363,19 +427,8 @@
               "RelativeToolTip": "Domain\\Domain.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-12-21T03:49:00.905Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "Persistence.csproj",
-              "DocumentMoniker": "E:\\demo\\Memora\\Memora-Backend\\Persistence\\Persistence.csproj",
-              "RelativeDocumentMoniker": "Persistence\\Persistence.csproj",
-              "ToolTip": "E:\\demo\\Memora\\Memora-Backend\\Persistence\\Persistence.csproj",
-              "RelativeToolTip": "Persistence\\Persistence.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-12-21T03:48:42.418Z"
+              "WhenOpened": "2025-12-21T03:49:00.905Z",
+              "EditorCaption": ""
             }
           ]
         }

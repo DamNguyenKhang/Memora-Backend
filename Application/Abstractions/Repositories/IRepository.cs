@@ -5,6 +5,7 @@ namespace Application.Abstractions.Repositories
 {
     public interface IRepository<T, TKey> where T : class, IEntity<TKey>
     {
+        Task SaveAsync();
         Task<T> AddAsync(T entity);
         Task<int> AddRangeAsync(IEnumerable<T> items);
         Task<T> UpdateAsync(T entity);

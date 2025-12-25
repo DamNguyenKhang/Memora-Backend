@@ -7,28 +7,35 @@ namespace Persistence.Repositories
 {
     public abstract class Repository<T, TKey>(ApplicationDbContext context) : IRepository<T, TKey> where T : class, IEntity<TKey>
     {
+        protected readonly DbSet<T> _dbSet = context.Set<T>();
+
+        public Task SaveAsync()
+        {
+            return context.SaveChangesAsync();
+        }
+        
         public async Task<T> AddAsync(T entity)
         {
-            await context.Set<T>().AddAsync(entity);
+            await _dbSet.AddAsync(entity);
             await context.SaveChangesAsync();
             return entity;
         }
 
         public async Task<int> AddRangeAsync(IEnumerable<T> items)
         {
-            await context.Set<T>().AddRangeAsync(items);
+            await _dbSet.AddRangeAsync(items);
             return await context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(T entity)
         {
-            context.Set<T>().Remove(entity);
+            _dbSet.Remove(entity);
             await context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<T>> GetAllByIdsAsync(IEnumerable<TKey> ids, params Expression<Func<T, object>>[] includes)
         {
-            IQueryable<T> query = context.Set<T>();
+            IQueryable<T> query = _dbSet;
             if (includes != null)
             {
                 foreach (var include in includes)
@@ -42,7 +49,7 @@ namespace Persistence.Repositories
 
         public async Task<T?> GetByIdAsync(TKey id, params Expression<Func<T, object>>[] includes)
         {
-            IQueryable<T> query = context.Set<T>();
+            IQueryable<T> query = _dbSet;
 
             foreach (var include in includes)
             {
@@ -56,7 +63,7 @@ namespace Persistence.Repositories
 
         public async Task<T> UpdateAsync(T entity)
         {
-            context.Set<T>().Update(entity);
+            _dbSet.Update(entity);
             await context.SaveChangesAsync();
             return entity;
         }
