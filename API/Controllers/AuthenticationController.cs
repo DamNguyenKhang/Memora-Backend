@@ -13,22 +13,32 @@ namespace API.Controllers
     [ApiController]
     public class AuthenticationController(IAuthenticationService authService) : ControllerBase
     {
-        [HttpPost("sign-up")]
+        [HttpPost("register")]
         public async Task<ActionResult<ApiResponse<UserResponse>>> CreateUser([FromBody] SignUpUserRequest request)
         {
             return new ApiResponse<UserResponse>
             {
-                Result = await authService.SignUpAsync(request),
+                Result = await authService.RegisterAsync(request),
                 Message = "Create new user successfully"
             };
         }
 
-        [HttpPost("sign-in")]
+        [HttpPost("login")]
         public async Task<ActionResult<ApiResponse<AuthenticationResponse>>> Login(AuthenticationRequest request)
         {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                // Secure = true,              // bật nếu HTTPS
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(7),
+                Path = "/"
+            };
+            var authResponse = await authService.LoginAsync(request);
+            Response.Cookies.Append("refreshToken", authResponse.RefreshToken, cookieOptions);
             return new ApiResponse<AuthenticationResponse>
             {
-                Result = await authService.SignInAsync(request),
+                Result = authResponse,
                 Message = "Login successfully"
             };
         }
@@ -36,10 +46,45 @@ namespace API.Controllers
         [HttpPost("refresh-token")]
         public async Task<ActionResult<ApiResponse<AuthenticationResponse>>> RefreshToken(RefreshTokenRequest request)
         {
+            if (!Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
+                return Unauthorized("Refresh token missing");
+            request.RefreshToken = refreshToken;   
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                // Secure = true,              // bật nếu HTTPS
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(7),
+                Path = "/"
+            };
+            var authResponse = await authService.RefreshTokenAsync(request);
+            Response.Cookies.Append("refreshToken", authResponse.RefreshToken, cookieOptions);
+
             return new ApiResponse<AuthenticationResponse>
             {
-                Result = await authService.RefreshTokenAsync(request),
+                Result = authResponse,
                 Message = "Refresh token successfully"
+            };
+        }
+
+        [HttpPost("logout")]
+        public async Task<ActionResult<ApiResponse<bool>>> Logout()
+        {
+            if (!Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
+                return Unauthorized("Refresh token missing");
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                // Secure = true,              // bật nếu HTTPS
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(-1),
+                Path = "/"
+            };
+            Response.Cookies.Append("refreshToken", "", cookieOptions);
+            return new ApiResponse<bool>
+            {
+                Result = await authService.LogoutAsync(refreshToken),
+                Message = "Logout successfully"
             };
         }
     }

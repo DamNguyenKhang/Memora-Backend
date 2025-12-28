@@ -59,6 +59,22 @@ namespace Persistence
                 .HasOne(p => p.Flashcard)
                 .WithMany(f => f.Progresses)
                 .HasForeignKey(p => p.FlashcardId);
+
+            modelBuilder.Entity<RefreshToken>(builder =>
+            {
+                builder.HasKey(x => x.Id);
+
+                builder.HasIndex(x => x.Token).IsUnique();
+
+                builder.Property(x => x.Token)
+                    .IsRequired()
+                    .HasMaxLength(44);
+
+                builder.HasOne(x => x.User)
+                    .WithMany(u => u.RefreshTokens)
+                    .HasForeignKey(x => x.UserId);
+            });
+
         }
     }
 }

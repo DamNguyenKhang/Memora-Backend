@@ -16,13 +16,13 @@ using ApplicationException = Application.Exceptions.ApplicationException;
 
 namespace Application.Services
 {
-    public class AuthenticationService(IUserRepository userRepository, IConfiguration configuration, IMapper mapper) : IAuthenticationService
+    public class AuthenticationService(IUserRepository userRepository, IRefreshTokenRepository refreshTokenRepository, IConfiguration configuration, IMapper mapper) : IAuthenticationService
     {
         private readonly string jwtKey = configuration["JWT_SECRET"]!;
         private readonly double accessTokenExpirationMinutes = configuration.GetValue<double>("AppSettings:AccessTokenExpirationMinutes");
         private readonly double refreshTokenExpirationDays = configuration.GetValue<double>("AppSettings:RefreshTokenExpirationDays");
 
-        public async Task<UserResponse> SignUpAsync(SignUpUserRequest request)
+        public async Task<UserResponse> RegisterAsync(SignUpUserRequest request)
         {
             var user = mapper.Map<User>(request);
             user.PasswordHash = new PasswordHasher<User>().HashPassword(user, user.PasswordHash);
@@ -30,7 +30,7 @@ namespace Application.Services
             return mapper.Map<UserResponse>(user);
         }
 
-        public async Task<AuthenticationResponse> SignInAsync(AuthenticationRequest request)
+        public async Task<AuthenticationResponse> LoginAsync(AuthenticationRequest request)
         {
             var user = await userRepository.GetByEmailOrUsername(request.Identifier) ?? throw new ApplicationException(ErrorCode.USER_NOT_FOUND);
             bool isAuthenticated = !(user is null) && new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Success;
@@ -41,6 +41,7 @@ namespace Application.Services
 
             return new AuthenticationResponse
             {
+                User = mapper.Map<UserResponse>(user),
                 AccessToken = GenerateToken(user),
                 RefreshToken = await GenerateAndSaveRefreshToken(user)
             };
@@ -48,8 +49,8 @@ namespace Application.Services
 
         public async Task<AuthenticationResponse> RefreshTokenAsync(RefreshTokenRequest request)
         {
-            var user = await userRepository.GetByIdAsync(request.UserId);
-            if (user is null || user.RefreshToken != request.RefreshToken || user.RefreshTokenExpireTime <= DateTime.UtcNow)
+            var user = await userRepository.GetByIdAsync(request.UserId) ?? throw new ApplicationException(ErrorCode.USER_NOT_FOUND);
+            if (user is null || !await ValidateRefreshTokenAsync(request.RefreshToken))
             {
                 throw new ApplicationException(ErrorCode.INVALID_REFRESH_TOKEN);
             }
@@ -58,6 +59,24 @@ namespace Application.Services
                 AccessToken = GenerateToken(user),
                 RefreshToken = await GenerateAndSaveRefreshToken(user)
             };
+        }
+
+        public async Task<bool> LogoutAsync(string refreshToken)
+        {
+            var refreshTokenEntity = await refreshTokenRepository.GetByTokenAsync(refreshToken);
+            if (refreshTokenEntity is null)
+            {
+                return false;
+            }
+            refreshTokenEntity.IsRevoked = true;
+            await refreshTokenRepository.UpdateAsync(refreshTokenEntity);
+            return true;
+        }
+
+        private async Task<bool> ValidateRefreshTokenAsync(string refreshToken)
+        {
+            var refreshTokenEntity = await refreshTokenRepository.GetByTokenAsync(refreshToken);
+            return refreshTokenEntity is not null && refreshTokenEntity.ExpiresAt > DateTime.UtcNow && !refreshTokenEntity.IsRevoked;
         }
 
 
@@ -72,11 +91,15 @@ namespace Application.Services
 
         private async Task<string> GenerateAndSaveRefreshToken(User user)
         {
-            var refreshToken = GenerateRefreshToken();
-            user.RefreshToken = refreshToken;
-            user.RefreshTokenExpireTime = DateTime.UtcNow.AddDays(refreshTokenExpirationDays);
-            await userRepository.UpdateAsync(user);
-            return refreshToken;
+            var refreshToken = new RefreshToken
+            {
+                Token = GenerateRefreshToken(),
+                UserId = user.Id,
+                CreatedAt = DateTime.UtcNow,
+                ExpiresAt = DateTime.UtcNow.AddDays(refreshTokenExpirationDays)
+            };
+            await refreshTokenRepository.AddAsync(refreshToken);
+            return refreshToken.Token;
         }
 
 

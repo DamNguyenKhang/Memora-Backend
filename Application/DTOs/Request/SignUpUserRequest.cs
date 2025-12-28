@@ -18,7 +18,7 @@ namespace Application.DTOs.Request
         public string Password { get; set; } = null!;
 
         [Required]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
     }
 }

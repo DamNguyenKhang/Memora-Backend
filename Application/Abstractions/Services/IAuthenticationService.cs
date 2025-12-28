@@ -9,8 +9,9 @@ namespace Application.Abstractions.Services
 {
     public interface IAuthenticationService
     {
-        Task<UserResponse> SignUpAsync(SignUpUserRequest request);
-        Task<AuthenticationResponse> SignInAsync(AuthenticationRequest request);
+        Task<UserResponse> RegisterAsync(SignUpUserRequest request);
+        Task<AuthenticationResponse> LoginAsync(AuthenticationRequest request);
         Task<AuthenticationResponse> RefreshTokenAsync(RefreshTokenRequest request);
+        Task<bool> LogoutAsync(string refreshToken);
     }
 }

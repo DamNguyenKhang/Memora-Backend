@@ -28,9 +28,6 @@ namespace Domain.Entities
         [Required]
         public Role Role { get; set; } = Role.USER;
 
-        public string? RefreshToken { get; set; }
-        public DateTime? RefreshTokenExpireTime { get; set; }
-
         public bool IsEmailVerified { get; set; } = false;
         public bool IsActive { get; set; } = true;
 
@@ -41,5 +38,6 @@ namespace Domain.Entities
         // Navigation
         public ICollection<Deck> Decks { get; set; } = new List<Deck>();
         public ICollection<UserFlashcardProgress> FlashcardProgresses { get; set; } = new List<UserFlashcardProgress>();
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }

@@ -1,7 +1,6 @@
 
 using System.Text;
 using Application;
-using Application.Exceptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
@@ -19,15 +18,18 @@ namespace API
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("FrontendPolicy",
-                    policy => policy.WithOrigins(builder.Configuration["FRONTEND_URL"] ?? "http://localhost:3000")
+                options.AddPolicy("AllowClient",
+                    policy => policy.WithOrigins(builder.Configuration["FRONTEND_URL"] ?? "http://localhost:5173")
                                     .AllowAnyHeader()
-                                    .AllowAnyMethod());
+                                    .AllowAnyMethod()
+                                    .AllowCredentials());
             });
+
             builder.Services.AddControllers();
             DotNetEnv.Env.Load();
             builder.Configuration
                 .AddEnvironmentVariables();
+
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -43,12 +45,14 @@ namespace API
                         ValidateIssuerSigningKey = true
                     };
                 });
+
             builder.Services
                 .AddDatabase(connectionString!)
                 .AddApplication()
                 .AddExceptionHandler()
                 .AddPersistence()
                 ;
+
             builder.Services.AddProblemDetails(configure =>
                 configure.CustomizeProblemDetails = context =>
                 {
@@ -56,8 +60,6 @@ namespace API
                 }
             );
 
-            builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
-            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
@@ -72,7 +74,7 @@ namespace API
             app.UseHttpsRedirection();
             app.UseExceptionHandler();
 
-            app.UseCors("FrontendPolicy");
+            app.UseCors("AllowClient");
             app.UseAuthorization();
             app.MapControllers();
             app.Run();
