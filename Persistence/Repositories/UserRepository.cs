@@ -19,5 +19,15 @@ namespace Persistence.Repositories
         {
             return await _dbSet.ToListAsync();
         }
+
+        public async Task<bool> CheckEmailExistsAsync(string email)
+        {
+            return await _dbSet.AnyAsync(u => u.Email == email);
+        }
+
+        public async Task<bool> CheckUsernameExistsAsync(string username)
+        {
+            return await _dbSet.AnyAsync(u => u.Username == username);
+        }
     }
 }

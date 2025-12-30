@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Application.Abstractions.Services;
 using Application.DTOs.Request;
+using Application.DTOs.Request.Auth;
 using Application.DTOs.Response;
 using Microsoft.AspNetCore.Mvc;
 
@@ -85,6 +82,28 @@ namespace API.Controllers
             {
                 Result = await authService.LogoutAsync(refreshToken),
                 Message = "Logout successfully"
+            };
+        }
+
+        [HttpPost("check-email-exist")]
+        public async Task<ActionResult<ApiResponse<bool>>> CheckEmailExists([FromBody] CheckEmailRequest request)
+        {
+            bool isEmailExists = await authService.CheckEmailExistsAsync(request.Email);
+            return new ApiResponse<bool>
+            {
+                Result = isEmailExists,
+                Message = isEmailExists ? "Email exists" : "Email does not exist"
+            };
+        }
+
+        [HttpPost("check-username-exist")]
+        public async Task<ActionResult<ApiResponse<bool>>> CheckUsernameExists([FromBody] CheckUsernameRequest request)
+        {
+            bool isUsernameExists = await authService.CheckUsernameExistsAsync(request.Username);
+            return new ApiResponse<bool>
+            {
+                Result = isUsernameExists,
+                Message = isUsernameExists ? "Username exists" : "Username does not exist"
             };
         }
     }

@@ -7,5 +7,9 @@ namespace Application.Abstractions.Repositories
         Task<User?> GetByEmailOrUsername(string identifier);
 
         Task<IEnumerable<User>> GetAllAsync();
+        
+        Task<bool> CheckEmailExistsAsync(string email);
+
+        Task<bool> CheckUsernameExistsAsync(string username);
     }
 }

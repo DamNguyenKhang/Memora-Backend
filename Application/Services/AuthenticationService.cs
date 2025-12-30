@@ -73,6 +73,16 @@ namespace Application.Services
             return true;
         }
 
+        public async Task<bool> CheckEmailExistsAsync(string email)
+        {
+            return await userRepository.CheckEmailExistsAsync(email);
+        }
+
+        public async Task<bool> CheckUsernameExistsAsync(string username)
+        {
+            return await userRepository.CheckUsernameExistsAsync(username);
+        }
+
         private async Task<bool> ValidateRefreshTokenAsync(string refreshToken)
         {
             var refreshTokenEntity = await refreshTokenRepository.GetByTokenAsync(refreshToken);

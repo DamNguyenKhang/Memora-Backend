@@ -13,5 +13,7 @@ namespace Application.Abstractions.Services
         Task<AuthenticationResponse> LoginAsync(AuthenticationRequest request);
         Task<AuthenticationResponse> RefreshTokenAsync(RefreshTokenRequest request);
         Task<bool> LogoutAsync(string refreshToken);
+        Task<bool> CheckEmailExistsAsync(string email);
+        Task<bool> CheckUsernameExistsAsync(string username);
     }
 }
