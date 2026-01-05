@@ -75,6 +75,24 @@ namespace Persistence
                     .HasForeignKey(x => x.UserId);
             });
 
+            modelBuilder.Entity<EmailVerification>(entity =>
+            {
+                entity.HasKey(x => x.Id);
+
+                entity.HasIndex(x => x.Token).IsUnique();
+
+                entity.HasOne(x => x.User)
+                    .WithMany(u => u.EmailVerifications)
+                    .HasForeignKey(x => x.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.Property(x => x.Token)
+                    .IsRequired()
+                    .HasMaxLength(40);
+
+                entity.Property(x => x.ExpiredAt)
+                    .IsRequired();
+            });
         }
     }
 }

@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Application.DTOs.Request.Auth
 {
     public class CheckEmailRequest
     {
-        public string Email { get; set; }
+        [Required]
+        public string Email { get; set; } = null!;
     }
 }

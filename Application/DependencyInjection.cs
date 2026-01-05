@@ -18,6 +18,7 @@ namespace Application
             services.AddAutoMapper(typeof(DependencyInjection).Assembly);
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmailService, EmailService>();
             return services;
         }
 

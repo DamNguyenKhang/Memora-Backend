@@ -65,7 +65,7 @@ namespace API.Controllers
         }
 
         [HttpPost("logout")]
-        public async Task<ActionResult<ApiResponse<bool>>> Logout()
+        public async Task<ActionResult<ApiResponse>> Logout()
         {
             if (!Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
                 return Unauthorized("Refresh token missing");
@@ -78,9 +78,8 @@ namespace API.Controllers
                 Path = "/"
             };
             Response.Cookies.Append("refreshToken", "", cookieOptions);
-            return new ApiResponse<bool>
+            return new ApiResponse
             {
-                Result = await authService.LogoutAsync(refreshToken),
                 Message = "Logout successfully"
             };
         }
@@ -104,6 +103,17 @@ namespace API.Controllers
             {
                 Result = isUsernameExists,
                 Message = isUsernameExists ? "Username exists" : "Username does not exist"
+            };
+        }
+
+        [HttpPost("change-password")]
+        public async Task<ActionResult<ApiResponse<bool>>> ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            bool isSuccess = await authService.ChangePasswordAsync(request);
+            return new ApiResponse<bool>
+            {
+                Result = isSuccess,
+                Message = isSuccess ? "Change password successfully" : "Change password failed"
             };
         }
     }

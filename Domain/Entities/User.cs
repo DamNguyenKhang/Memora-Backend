@@ -35,9 +35,10 @@ namespace Domain.Entities
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? DeletedAt { get; set; }
 
-        // Navigation
         public ICollection<Deck> Decks { get; set; } = new List<Deck>();
         public ICollection<UserFlashcardProgress> FlashcardProgresses { get; set; } = new List<UserFlashcardProgress>();
         public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+
+        public ICollection<EmailVerification> EmailVerifications { get; set; } = new List<EmailVerification>();
     }
 }

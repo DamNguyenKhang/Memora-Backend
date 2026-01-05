@@ -5,6 +5,7 @@ using System.Text;
 using Application.Abstractions.Repositories;
 using Application.Abstractions.Services;
 using Application.DTOs.Request;
+using Application.DTOs.Request.Auth;
 using Application.DTOs.Response;
 using Application.Exceptions;
 using AutoMapper;
@@ -16,7 +17,7 @@ using ApplicationException = Application.Exceptions.ApplicationException;
 
 namespace Application.Services
 {
-    public class AuthenticationService(IUserRepository userRepository, IRefreshTokenRepository refreshTokenRepository, IConfiguration configuration, IMapper mapper) : IAuthenticationService
+    public class AuthenticationService(IEmailService emailService, IUserRepository userRepository, IRefreshTokenRepository refreshTokenRepository, IConfiguration configuration, IMapper mapper) : IAuthenticationService
     {
         private readonly string jwtKey = configuration["JWT_SECRET"]!;
         private readonly double accessTokenExpirationMinutes = configuration.GetValue<double>("AppSettings:AccessTokenExpirationMinutes");
@@ -61,16 +62,11 @@ namespace Application.Services
             };
         }
 
-        public async Task<bool> LogoutAsync(string refreshToken)
+        public async Task LogoutAsync(string refreshToken)
         {
-            var refreshTokenEntity = await refreshTokenRepository.GetByTokenAsync(refreshToken);
-            if (refreshTokenEntity is null)
-            {
-                return false;
-            }
+            var refreshTokenEntity = await refreshTokenRepository.GetByTokenAsync(refreshToken) ?? throw new ApplicationException(ErrorCode.INVALID_REFRESH_TOKEN);
             refreshTokenEntity.IsRevoked = true;
             await refreshTokenRepository.UpdateAsync(refreshTokenEntity);
-            return true;
         }
 
         public async Task<bool> CheckEmailExistsAsync(string email)
@@ -89,7 +85,24 @@ namespace Application.Services
             return refreshTokenEntity is not null && refreshTokenEntity.ExpiresAt > DateTime.UtcNow && !refreshTokenEntity.IsRevoked;
         }
 
+        public async Task<bool> ChangePasswordAsync(ChangePasswordRequest request)
+        {
+            var user = await userRepository.GetByIdAsync(request.Id)
+                ?? throw new ApplicationException(ErrorCode.USER_NOT_FOUND);
 
+            var hasher = new PasswordHasher<User>();
+
+            var result = hasher.VerifyHashedPassword(user, user.PasswordHash, request.CurrentPassword);
+
+            if (result == PasswordVerificationResult.Failed)
+            {
+                throw new ApplicationException(ErrorCode.INVALID_CREDENTIALS);
+            }
+
+            user.PasswordHash = hasher.HashPassword(user, request.NewPassword);
+
+            return  await userRepository.UpdateAsync(user) != null;
+        }
 
         private string GenerateRefreshToken()
         {

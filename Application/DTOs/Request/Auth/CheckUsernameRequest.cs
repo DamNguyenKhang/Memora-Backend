@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Application.DTOs.Request.Auth
 {
     public class CheckUsernameRequest
     {
-        public string Username { get; set; }
+        [Required]
+        public string Username { get; set; } = null!;
     }
 }

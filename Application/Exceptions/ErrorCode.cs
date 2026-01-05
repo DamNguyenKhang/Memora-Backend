@@ -8,7 +8,8 @@ namespace Application.Exceptions
         INVALID_CREDENTIALS,
         UNAUTHORIZED,
         INTERNAL_ERROR,
-        INVALID_REFRESH_TOKEN
+        INVALID_REFRESH_TOKEN,
+        REFRESH_TOKEN_NOT_FOUND
     }
 
     public record ErrorDetail(int StatusCode, string Message);
@@ -21,7 +22,8 @@ namespace Application.Exceptions
         { ErrorCode.INVALID_CREDENTIALS, new ErrorDetail(StatusCodes.Status401Unauthorized, "Invalid credentials") },
         { ErrorCode.UNAUTHORIZED, new ErrorDetail(StatusCodes.Status403Forbidden, "Unauthorized access") },
         { ErrorCode.INTERNAL_ERROR, new ErrorDetail(StatusCodes.Status500InternalServerError, "Internal server error") },
-        { ErrorCode.INVALID_REFRESH_TOKEN, new ErrorDetail(StatusCodes.Status500InternalServerError, "Invalid refresh token")}
+        { ErrorCode.INVALID_REFRESH_TOKEN, new ErrorDetail(StatusCodes.Status403Forbidden, "Invalid refresh token")},
+        { ErrorCode.REFRESH_TOKEN_NOT_FOUND, new ErrorDetail(StatusCodes.Status404NotFound, "refresh token not found")},
     };
 
         public static ErrorDetail Get(ErrorCode code) => Map[code];
