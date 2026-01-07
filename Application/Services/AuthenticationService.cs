@@ -12,12 +12,20 @@ using AutoMapper;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using ApplicationException = Application.Exceptions.ApplicationException;
 
 namespace Application.Services
 {
-    public class AuthenticationService(IEmailService emailService, IUserRepository userRepository, IRefreshTokenRepository refreshTokenRepository, IConfiguration configuration, IMapper mapper) : IAuthenticationService
+    public class AuthenticationService(
+        IEmailService emailService,
+        IUserRepository userRepository,
+        IRefreshTokenRepository refreshTokenRepository,
+        IEmailVerificationRepository emailVerificationRepository,
+        IConfiguration configuration, IMapper mapper,
+        ILogger<AuthenticationService> logger
+    ) : IAuthenticationService
     {
         private readonly string jwtKey = configuration["JWT_SECRET"]!;
         private readonly double accessTokenExpirationMinutes = configuration.GetValue<double>("AppSettings:AccessTokenExpirationMinutes");
@@ -28,23 +36,30 @@ namespace Application.Services
             var user = mapper.Map<User>(request);
             user.PasswordHash = new PasswordHasher<User>().HashPassword(user, user.PasswordHash);
             await userRepository.AddAsync(user);
+            await SendEmailVerification(user);
             return mapper.Map<UserResponse>(user);
         }
 
         public async Task<AuthenticationResponse> LoginAsync(AuthenticationRequest request)
         {
             var user = await userRepository.GetByEmailOrUsername(request.Identifier) ?? throw new ApplicationException(ErrorCode.USER_NOT_FOUND);
-            bool isAuthenticated = !(user is null) && new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Success;
+            bool isAuthenticated = new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Success;
             if (!isAuthenticated)
             {
                 throw new ApplicationException(ErrorCode.INVALID_CREDENTIALS);
             }
 
+            // if (!user.IsEmailVerified)
+            // {
+            //     await SendEmailVerification(user);
+            //     throw new ApplicationException(ErrorCode.EMAIL_NOT_VERIFY);
+            // }
+
             return new AuthenticationResponse
             {
                 User = mapper.Map<UserResponse>(user),
-                AccessToken = GenerateToken(user),
-                RefreshToken = await GenerateAndSaveRefreshToken(user)
+                AccessToken = GenerateToken(user!),
+                RefreshToken = await GenerateAndSaveRefreshToken(user!)
             };
         }
 
@@ -66,17 +81,64 @@ namespace Application.Services
         {
             var refreshTokenEntity = await refreshTokenRepository.GetByTokenAsync(refreshToken) ?? throw new ApplicationException(ErrorCode.INVALID_REFRESH_TOKEN);
             refreshTokenEntity.IsRevoked = true;
+            refreshTokenEntity.RevokedAt = DateTime.UtcNow;
             await refreshTokenRepository.UpdateAsync(refreshTokenEntity);
         }
 
-        public async Task<bool> CheckEmailExistsAsync(string email)
+        public async Task<bool> CheckEmailExistsAsync(CheckEmailRequest request)
         {
-            return await userRepository.CheckEmailExistsAsync(email);
+            return await userRepository.CheckEmailExistsAsync(request.Email);
         }
 
-        public async Task<bool> CheckUsernameExistsAsync(string username)
+        public async Task<bool> CheckUsernameExistsAsync(CheckUsernameRequest request)
         {
-            return await userRepository.CheckUsernameExistsAsync(username);
+            return await userRepository.CheckUsernameExistsAsync(request.Username);
+        }
+
+        public async Task ResendEmailVerification(ResendEmailRequest request)
+        {
+            var user = await userRepository.GetByEmailAsync(request.Email) ?? throw new ApplicationException(ErrorCode.USER_NOT_FOUND);
+            await SendEmailVerification(user);
+        }
+        
+        private async Task SendEmailVerification(User user)
+        {
+            var emailVerification = new EmailVerification
+            {
+                Token = Guid.NewGuid().ToString("N"),
+                UserId = user.Id,
+                CreatedAt = DateTime.UtcNow,
+                IsUsed = false,
+                ExpiredAt = DateTime.UtcNow.AddMinutes(15)
+            };
+            await emailVerificationRepository.AddAsync(emailVerification);
+            await emailService.SendVerificationEmailAsync(user.Email, emailVerification.Token);
+        }
+
+        public async Task VerifyEmailAsync(VerifyEmailRequest request)
+        {
+            var verification = await emailVerificationRepository.GetByTokenAsync(request.Token) ?? throw new ApplicationException(ErrorCode.EMAIL_VERIFICATION_TOKEN_NOT_FOUND);
+
+            if (verification.IsUsed)
+            {
+                throw new ApplicationException(ErrorCode.USED_EMAIL_VERIFICATION_TOKEN);
+            }
+
+            if(verification.ExpiredAt < DateTime.UtcNow)
+            {
+                throw new ApplicationException(ErrorCode.EMAIL_VERIFICATION_TOKEN_EXPIRED);
+            }
+
+            var user = await userRepository.GetByEmailAsync(request.Email) ?? throw new ApplicationException(ErrorCode.USER_NOT_FOUND);
+            if(!string.Equals(user.Email, request.Email, StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ApplicationException(ErrorCode.EMAIL_NOT_MATCH);
+            }
+
+            user.IsEmailVerified = true;
+            verification.IsUsed = true;
+            await userRepository.UpdateAsync(user);
+            await emailVerificationRepository.UpdateAsync(verification);
         }
 
         private async Task<bool> ValidateRefreshTokenAsync(string refreshToken)
@@ -101,7 +163,7 @@ namespace Application.Services
 
             user.PasswordHash = hasher.HashPassword(user, request.NewPassword);
 
-            return  await userRepository.UpdateAsync(user) != null;
+            return await userRepository.UpdateAsync(user) != null;
         }
 
         private string GenerateRefreshToken()

@@ -29,5 +29,10 @@ namespace Persistence.Repositories
         {
             return await _dbSet.AnyAsync(u => u.Username == username);
         }
+
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            return await _dbSet.FirstOrDefaultAsync(u => u.Email == email);
+        }
     }
 }

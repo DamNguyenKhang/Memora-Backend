@@ -11,6 +11,7 @@ namespace Persistence
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IEmailVerificationRepository, EmailVerificationRepository>();
             return services;
         }
 

@@ -17,7 +17,7 @@ namespace Application.DTOs.Request
         [MinLength(6)]
         public string Password { get; set; } = null!;
 
-        [Required]
+        // [Required]
         public DateTime? DateOfBirth { get; set; }
 
     }

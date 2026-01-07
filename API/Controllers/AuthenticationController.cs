@@ -26,9 +26,8 @@ namespace API.Controllers
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                // Secure = true,              // bật nếu HTTPS
-                SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddDays(7),
+                SameSite = SameSiteMode.Lax, 
+                Secure = false,              
                 Path = "/"
             };
             var authResponse = await authService.LoginAsync(request);
@@ -45,13 +44,12 @@ namespace API.Controllers
         {
             if (!Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
                 return Unauthorized("Refresh token missing");
-            request.RefreshToken = refreshToken;   
+            request.RefreshToken = refreshToken;
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                // Secure = true,              // bật nếu HTTPS
-                SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddDays(7),
+                SameSite = SameSiteMode.Lax, 
+                Secure = false,              
                 Path = "/"
             };
             var authResponse = await authService.RefreshTokenAsync(request);
@@ -72,12 +70,12 @@ namespace API.Controllers
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                // Secure = true,              // bật nếu HTTPS
-                SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddDays(-1),
+                SameSite = SameSiteMode.Lax, 
+                Secure = false,              
                 Path = "/"
             };
             Response.Cookies.Append("refreshToken", "", cookieOptions);
+            await authService.LogoutAsync(refreshToken);
             return new ApiResponse
             {
                 Message = "Logout successfully"
@@ -87,7 +85,7 @@ namespace API.Controllers
         [HttpPost("check-email-exist")]
         public async Task<ActionResult<ApiResponse<bool>>> CheckEmailExists([FromBody] CheckEmailRequest request)
         {
-            bool isEmailExists = await authService.CheckEmailExistsAsync(request.Email);
+            bool isEmailExists = await authService.CheckEmailExistsAsync(request);
             return new ApiResponse<bool>
             {
                 Result = isEmailExists,
@@ -98,7 +96,7 @@ namespace API.Controllers
         [HttpPost("check-username-exist")]
         public async Task<ActionResult<ApiResponse<bool>>> CheckUsernameExists([FromBody] CheckUsernameRequest request)
         {
-            bool isUsernameExists = await authService.CheckUsernameExistsAsync(request.Username);
+            bool isUsernameExists = await authService.CheckUsernameExistsAsync(request);
             return new ApiResponse<bool>
             {
                 Result = isUsernameExists,
@@ -114,6 +112,26 @@ namespace API.Controllers
             {
                 Result = isSuccess,
                 Message = isSuccess ? "Change password successfully" : "Change password failed"
+            };
+        }
+
+        [HttpPost("resend-email-verification")]
+        public async Task<ActionResult<ApiResponse>> ResendEmailVerification([FromBody] ResendEmailRequest request)
+        {
+            await authService.ResendEmailVerification(request);
+            return new ApiResponse
+            {
+                Message = "Resend email verification successfully"
+            };
+        }
+
+        [HttpPost("verify-email")]
+        public async Task<ActionResult<ApiResponse>> VerifyEmail([FromBody] VerifyEmailRequest request)
+        {
+            await authService.VerifyEmailAsync(request);
+            return new ApiResponse
+            {
+                Message = "verify email successfully"
             };
         }
     }

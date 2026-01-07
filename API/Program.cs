@@ -4,6 +4,7 @@ using Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
+using Scalar.AspNetCore;
 
 namespace API
 {
@@ -19,7 +20,7 @@ namespace API
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowClient",
-                    policy => policy.WithOrigins(builder.Configuration["FRONTEND_URL"] ?? "http://localhost:5173")
+                    policy => policy.WithOrigins(builder.Configuration["FrontendUrl"] ?? "http://localhost:5173")
                                     .AllowAnyHeader()
                                     .AllowAnyMethod()
                                     .AllowCredentials());
@@ -69,12 +70,14 @@ namespace API
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.MapScalarApiReference();
             }
 
             app.UseHttpsRedirection();
             app.UseExceptionHandler();
 
             app.UseCors("AllowClient");
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
             app.Run();

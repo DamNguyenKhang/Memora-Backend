@@ -1,29 +1,40 @@
 using Application.Abstractions.Services;
+using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 
 namespace Application.Services;
 
-public class EmailService(IConfiguration configuration) : IEmailService
+public class EmailService : IEmailService
 {
-    public async Task SendVerificationEmailAsync(string toEmail, string verifyToken)
+    private readonly string _host;
+    private readonly int _port;
+    private readonly string _senderName;
+    private readonly string _senderEmail;
+    private readonly string _username;
+    private readonly string _password;
+    private readonly string _verifyEmailBaseUrl;
+
+    public EmailService(IConfiguration configuration)
     {
-        // 🔹 Lấy cấu hình
         var emailSection = configuration.GetSection("EmailSettings");
 
-        var host = emailSection["Host"];
-        var port = int.Parse(emailSection["Port"]!);
-        var senderName = emailSection["SenderName"];
-        var senderEmail = emailSection["SenderEmail"];
-        var username = emailSection["Username"];
-        var password = emailSection["Password"];
+        _host = emailSection["Host"]!;
+        _port = int.Parse(emailSection["Port"]!);
+        _senderName = emailSection["SenderName"]!;
+        _senderEmail = emailSection["SenderEmail"]!;
+        _username = emailSection["Username"]!;
+        _password = emailSection["Password"]!;
 
-        // 🔹 Verify link
-        var baseUrl = configuration["App:VerifyEmailUrl"];
-        var verifyLink = $"{baseUrl}?token={verifyToken}&email={Uri.EscapeDataString(toEmail)}";
+        _verifyEmailBaseUrl = configuration["App:VerifyEmailUrl"]!;
+    }
 
-        // 🔹 HTML email
+    public async Task SendVerificationEmailAsync(string toEmail, string verifyToken)
+    {
+        var verifyLink =
+            $"{_verifyEmailBaseUrl}?token={verifyToken}&email={Uri.EscapeDataString(toEmail)}";
+
         var htmlBody = $"""
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto">
             <h2>🎉 Chào mừng bạn đến với Memora</h2>
@@ -51,9 +62,8 @@ public class EmailService(IConfiguration configuration) : IEmailService
         </div>
         """;
 
-        // 🔹 Build email
         var message = new MimeMessage();
-        message.From.Add(new MailboxAddress(senderName, senderEmail));
+        message.From.Add(new MailboxAddress(_senderName, _senderEmail));
         message.To.Add(MailboxAddress.Parse(toEmail));
         message.Subject = "Xác thực email đăng ký Memora";
 
@@ -62,11 +72,9 @@ public class EmailService(IConfiguration configuration) : IEmailService
             HtmlBody = htmlBody
         }.ToMessageBody();
 
-        // 🔹 Send
-        using var smtp = new MailKit.Net.Smtp.SmtpClient();
-
-        await smtp.ConnectAsync(host, port, SecureSocketOptions.StartTls);
-        await smtp.AuthenticateAsync(username, password);
+        using var smtp = new SmtpClient();
+        await smtp.ConnectAsync(_host, _port, SecureSocketOptions.StartTls);
+        await smtp.AuthenticateAsync(_username, _password);
         await smtp.SendAsync(message);
         await smtp.DisconnectAsync(true);
     }

@@ -11,5 +11,7 @@ namespace Application.Abstractions.Repositories
         Task<bool> CheckEmailExistsAsync(string email);
 
         Task<bool> CheckUsernameExistsAsync(string username);
+
+        Task<User?> GetByEmailAsync(string email);
     }
 }
