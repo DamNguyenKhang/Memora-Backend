@@ -39,6 +39,25 @@ namespace API.Controllers
             };
         }
 
+        [HttpPost("login-google")]
+        public async Task<ActionResult<ApiResponse<AuthenticationResponse>>> LoginGoogle(GoogleLoginRequest request)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                SameSite = SameSiteMode.Lax, 
+                Secure = false,              
+                Path = "/"
+            };
+            var authResponse = await authService.LoginGoogleAsync(request);
+            Response.Cookies.Append("refreshToken", authResponse.RefreshToken, cookieOptions);
+            return new ApiResponse<AuthenticationResponse>
+            {
+                Result = authResponse,
+                Message = "Login successfully"
+            };
+        }
+
         [HttpPost("refresh-token")]
         public async Task<ActionResult<ApiResponse<AuthenticationResponse>>> RefreshToken(RefreshTokenRequest request)
         {
@@ -126,12 +145,21 @@ namespace API.Controllers
         }
 
         [HttpPost("verify-email")]
-        public async Task<ActionResult<ApiResponse>> VerifyEmail([FromBody] VerifyEmailRequest request)
+        public async Task<ActionResult<ApiResponse<AuthenticationResponse>>> VerifyEmail([FromBody] VerifyEmailRequest request)
         {
-            await authService.VerifyEmailAsync(request);
-            return new ApiResponse
+            var cookieOptions = new CookieOptions
             {
-                Message = "verify email successfully"
+                HttpOnly = true,
+                SameSite = SameSiteMode.Lax, 
+                Secure = false,              
+                Path = "/"
+            };
+            var authResponse = await authService.VerifyEmailAsync(request);
+            Response.Cookies.Append("refreshToken", authResponse.RefreshToken, cookieOptions);
+            return new ApiResponse<AuthenticationResponse>
+            {
+                Result = authResponse,
+                Message = "Verify email successfully"
             };
         }
     }

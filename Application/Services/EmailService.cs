@@ -18,7 +18,7 @@ public class EmailService : IEmailService
 
     public EmailService(IConfiguration configuration)
     {
-        var emailSection = configuration.GetSection("EmailSettings");
+        var emailSection = configuration.GetSection("Email");
 
         _host = emailSection["Host"]!;
         _port = int.Parse(emailSection["Port"]!);
@@ -27,7 +27,7 @@ public class EmailService : IEmailService
         _username = emailSection["Username"]!;
         _password = emailSection["Password"]!;
 
-        _verifyEmailBaseUrl = configuration["App:VerifyEmailUrl"]!;
+        _verifyEmailBaseUrl = $"{configuration["App:FrontendBaseUrl"]!}{configuration["App:VerifyEmailPath"]!}";
     }
 
     public async Task SendVerificationEmailAsync(string toEmail, string verifyToken)

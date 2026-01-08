@@ -18,8 +18,7 @@ namespace Domain.Entities
         [MaxLength(20)]
         public string Username { get; set; } = null!;
 
-        [Required]
-        public string PasswordHash { get; set; } = null!;
+        public string? PasswordHash { get; set; } = null!;
 
         public string? AvatarUrl { get; set; }
 
@@ -27,6 +26,9 @@ namespace Domain.Entities
 
         [Required]
         public Role Role { get; set; } = Role.USER;
+
+        [Required]
+        public AuthProvider AuthProvider { get; set; } = AuthProvider.Local;
 
         public bool IsEmailVerified { get; set; } = false;
         public bool IsActive { get; set; } = true;

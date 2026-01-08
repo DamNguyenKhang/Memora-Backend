@@ -13,6 +13,9 @@ namespace API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            DotNetEnv.Env.Load();
+            builder.Configuration.AddEnvironmentVariables();
+
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
             // Add services to the container.
@@ -20,16 +23,13 @@ namespace API
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowClient",
-                    policy => policy.WithOrigins(builder.Configuration["FrontendUrl"] ?? "http://localhost:5173")
+                    policy => policy.WithOrigins(builder.Configuration["App:FrontendBaseUrl"] ?? "http://localhost:5173")
                                     .AllowAnyHeader()
                                     .AllowAnyMethod()
                                     .AllowCredentials());
             });
 
             builder.Services.AddControllers();
-            DotNetEnv.Env.Load();
-            builder.Configuration
-                .AddEnvironmentVariables();
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -37,12 +37,12 @@ namespace API
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
-                        ValidIssuer = builder.Configuration["AppSettings:Issuer"],
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
                         ValidateAudience = true,
-                        ValidAudience = builder.Configuration["AppSettings:Audience"],
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
                         ValidateLifetime = true,
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Token"]!)),
+                            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]!)),
                         ValidateIssuerSigningKey = true
                     };
                 });

@@ -10,6 +10,8 @@ using Application.DTOs.Response;
 using Application.Exceptions;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -23,13 +25,16 @@ namespace Application.Services
         IUserRepository userRepository,
         IRefreshTokenRepository refreshTokenRepository,
         IEmailVerificationRepository emailVerificationRepository,
-        IConfiguration configuration, IMapper mapper,
+        IConfiguration configuration,
+        IMapper mapper,
         ILogger<AuthenticationService> logger
     ) : IAuthenticationService
     {
-        private readonly string jwtKey = configuration["JWT_SECRET"]!;
-        private readonly double accessTokenExpirationMinutes = configuration.GetValue<double>("AppSettings:AccessTokenExpirationMinutes");
-        private readonly double refreshTokenExpirationDays = configuration.GetValue<double>("AppSettings:RefreshTokenExpirationDays");
+        private readonly string jwtKey = configuration["Jwt:SecretKey"]!;
+        private readonly double accessTokenExpirationMinutes = configuration.GetValue<double>("Jwt:AccessTokenExpirationMinutes");
+        private readonly double refreshTokenExpirationDays = configuration.GetValue<double>("Jwt:RefreshTokenExpirationDays");
+
+        private readonly string clientId = configuration["Authentication:Google:ClientId"]!;
 
         public async Task<UserResponse> RegisterAsync(SignUpUserRequest request)
         {
@@ -49,18 +54,60 @@ namespace Application.Services
                 throw new ApplicationException(ErrorCode.INVALID_CREDENTIALS);
             }
 
-            // if (!user.IsEmailVerified)
-            // {
-            //     await SendEmailVerification(user);
-            //     throw new ApplicationException(ErrorCode.EMAIL_NOT_VERIFY);
-            // }
+            if (!user.IsEmailVerified)
+            {
+                await SendEmailVerification(user);
+                throw new ApplicationException(ErrorCode.EMAIL_NOT_VERIFY);
+            }
 
             return new AuthenticationResponse
             {
                 User = mapper.Map<UserResponse>(user),
-                AccessToken = GenerateToken(user!),
-                RefreshToken = await GenerateAndSaveRefreshToken(user!)
+                AccessToken = GenerateToken(user),
+                RefreshToken = await GenerateAndSaveRefreshToken(user)
             };
+        }
+
+        public async Task<AuthenticationResponse> LoginGoogleAsync(GoogleLoginRequest request)
+        {
+            var payload = await VerifyGoogleToken(request.IdToken) ?? throw new ApplicationException(ErrorCode.INVALID_GOOGLE_TOKEN);
+            var user = await userRepository.GetByEmailAsync(payload.Email);
+            if (user == null)
+            {
+                user = new User
+                {
+                    Username = payload.Email.Split('@')[0],
+                    Email = payload.Email,
+                    AvatarUrl = payload.Picture,
+                    IsEmailVerified = true,
+                    CreatedAt = DateTime.UtcNow,
+                    AuthProvider = AuthProvider.Google
+                };
+                await userRepository.AddAsync(user);
+            }
+            if (user.AuthProvider == AuthProvider.Local)
+            {
+                throw new ApplicationException(ErrorCode.INVALID_CREDENTIALS);
+            }
+            return new AuthenticationResponse
+            {
+                User = mapper.Map<UserResponse>(user),
+                AccessToken = GenerateToken(user),
+                RefreshToken = await GenerateAndSaveRefreshToken(user)
+            };
+        }
+
+        private async Task<GoogleJsonWebSignature.Payload?> VerifyGoogleToken(string idToken)
+        {
+            var settings = new GoogleJsonWebSignature.ValidationSettings()
+            {
+                Audience = new List<string>
+                {
+                    clientId
+                }
+            };
+
+            return await GoogleJsonWebSignature.ValidateAsync(idToken, settings);
         }
 
         public async Task<AuthenticationResponse> RefreshTokenAsync(RefreshTokenRequest request)
@@ -100,7 +147,7 @@ namespace Application.Services
             var user = await userRepository.GetByEmailAsync(request.Email) ?? throw new ApplicationException(ErrorCode.USER_NOT_FOUND);
             await SendEmailVerification(user);
         }
-        
+
         private async Task SendEmailVerification(User user)
         {
             var emailVerification = new EmailVerification
@@ -115,7 +162,7 @@ namespace Application.Services
             await emailService.SendVerificationEmailAsync(user.Email, emailVerification.Token);
         }
 
-        public async Task VerifyEmailAsync(VerifyEmailRequest request)
+        public async Task<AuthenticationResponse> VerifyEmailAsync(VerifyEmailRequest request)
         {
             var verification = await emailVerificationRepository.GetByTokenAsync(request.Token) ?? throw new ApplicationException(ErrorCode.EMAIL_VERIFICATION_TOKEN_NOT_FOUND);
 
@@ -124,13 +171,13 @@ namespace Application.Services
                 throw new ApplicationException(ErrorCode.USED_EMAIL_VERIFICATION_TOKEN);
             }
 
-            if(verification.ExpiredAt < DateTime.UtcNow)
+            if (verification.ExpiredAt < DateTime.UtcNow)
             {
                 throw new ApplicationException(ErrorCode.EMAIL_VERIFICATION_TOKEN_EXPIRED);
             }
 
             var user = await userRepository.GetByEmailAsync(request.Email) ?? throw new ApplicationException(ErrorCode.USER_NOT_FOUND);
-            if(!string.Equals(user.Email, request.Email, StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(user.Email, request.Email, StringComparison.OrdinalIgnoreCase))
             {
                 throw new ApplicationException(ErrorCode.EMAIL_NOT_MATCH);
             }
@@ -139,6 +186,12 @@ namespace Application.Services
             verification.IsUsed = true;
             await userRepository.UpdateAsync(user);
             await emailVerificationRepository.UpdateAsync(verification);
+            return new AuthenticationResponse
+            {
+                User = mapper.Map<UserResponse>(user),
+                AccessToken = GenerateToken(user),
+                RefreshToken = await GenerateAndSaveRefreshToken(user)
+            };
         }
 
         private async Task<bool> ValidateRefreshTokenAsync(string refreshToken)

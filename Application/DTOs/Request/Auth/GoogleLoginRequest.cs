@@ -1,0 +1,7 @@
+namespace Application.DTOs.Request.Auth
+{
+    public class GoogleLoginRequest
+    {
+        public string IdToken { get; set; } = null!;
+    }
+}
