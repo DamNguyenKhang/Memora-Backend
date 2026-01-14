@@ -2,6 +2,7 @@ using Application.Abstractions.Services;
 using Application.DTOs.Request;
 using Application.DTOs.Request.Auth;
 using Application.DTOs.Response;
+using Application.DTOs.Response.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -64,15 +65,15 @@ namespace API.Controllers
             if (!Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
                 return Unauthorized("Refresh token missing");
             request.RefreshToken = refreshToken;
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                SameSite = SameSiteMode.Lax, 
-                Secure = false,              
-                Path = "/"
-            };
+            // var cookieOptions = new CookieOptions
+            // {
+            //     HttpOnly = true,
+            //     SameSite = SameSiteMode.Lax, 
+            //     Secure = false,              
+            //     Path = "/"
+            // };
             var authResponse = await authService.RefreshTokenAsync(request);
-            Response.Cookies.Append("refreshToken", authResponse.RefreshToken, cookieOptions);
+            // Response.Cookies.Append("refreshToken", authResponse.RefreshToken, cookieOptions);
 
             return new ApiResponse<AuthenticationResponse>
             {

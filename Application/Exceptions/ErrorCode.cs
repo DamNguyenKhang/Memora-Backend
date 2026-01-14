@@ -15,7 +15,9 @@ namespace Application.Exceptions
         EMAIL_VERIFICATION_TOKEN_EXPIRED,
         EMAIL_NOT_MATCH,
         EMAIL_NOT_VERIFY,
-        INVALID_GOOGLE_TOKEN
+        INVALID_GOOGLE_TOKEN,
+        EMPTY_FILE,
+        FIlE_UPLOAD_ERROR
     }
 
     public record ErrorDetail(int StatusCode, string Message);
@@ -36,6 +38,8 @@ namespace Application.Exceptions
         { ErrorCode.EMAIL_NOT_MATCH, new ErrorDetail(StatusCodes.Status400BadRequest, "The verification email does not match the registered email")},
         { ErrorCode.EMAIL_NOT_VERIFY, new ErrorDetail(StatusCodes.Status403Forbidden, "Email hasn't been verified")},
         { ErrorCode.INVALID_GOOGLE_TOKEN, new ErrorDetail(StatusCodes.Status403Forbidden, "Invalid Google token")},
+        { ErrorCode.EMPTY_FILE, new ErrorDetail(StatusCodes.Status400BadRequest, "Uploaded file is empty")},
+        { ErrorCode.FIlE_UPLOAD_ERROR, new ErrorDetail(StatusCodes.Status500InternalServerError, "File upload error")}
     };
 
         public static ErrorDetail Get(ErrorCode code) => Map[code];

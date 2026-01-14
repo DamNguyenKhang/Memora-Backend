@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Claims;
 using Application.Abstractions.Services;
 using Application.DTOs.Response;
+using Application.DTOs.Response.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -19,6 +17,17 @@ namespace API.Controllers
             {
                 Result = await userService.GetAllAsync(),
                 Message = "Get all users successfully"
+            };
+        }
+
+        [HttpGet("my-info")]
+        public async Task<ActionResult<ApiResponse<UserResponse>>> GetMyInfo()
+        {
+            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            return new ApiResponse<UserResponse>
+            {
+                Result = await userService.GetUserById(userId),
+                Message = "Get user successfully"
             };
         }
     }

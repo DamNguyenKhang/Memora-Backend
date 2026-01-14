@@ -19,6 +19,8 @@ namespace Application
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IDeckService, DeckService>();
+            services.AddScoped<ICloudinaryService, CloudinaryService>();
             return services;
         }
 

@@ -1,36 +1,35 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
     public class Deck : IEntity<long>
-{
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public long Id { get; set; }
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
-    [Required]
-    public long OwnerId { get; set; }
+        [Required]
+        public long OwnerId { get; set; }
 
-    [Required]
-    [MaxLength(100)]
-    public string Title { get; set; } = null!;
+        [Required]
+        [MaxLength(100)]
+        public string Title { get; set; } = null!;
 
-    public string? Description { get; set; }
+        public string? Description { get; set; }
 
-    public bool IsPublic { get; set; } = false;
+        public List<string>? Tags { get; set; } = new();
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime? DeletedAt { get; set; }
+        public bool IsPublic { get; set; } = false;
 
-    // Navigation
-    public User Owner { get; set; } = null!;
-    public ICollection<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
-}
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
 
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+        // Navigation
+        public User Owner { get; set; } = null!;
+        public ICollection<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
+    }
 }

@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Application.DTOs.Request;
-using Application.DTOs.Response;
+using Application.DTOs.Request.Auth;
+using Application.DTOs.Response.Auth;
 using AutoMapper;
 using Domain.Entities;
 

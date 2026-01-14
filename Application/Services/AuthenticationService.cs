@@ -4,9 +4,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Application.Abstractions.Repositories;
 using Application.Abstractions.Services;
-using Application.DTOs.Request;
 using Application.DTOs.Request.Auth;
-using Application.DTOs.Response;
+using Application.DTOs.Response.Auth;
 using Application.Exceptions;
 using AutoMapper;
 using Domain.Entities;
@@ -119,8 +118,8 @@ namespace Application.Services
             }
             return new AuthenticationResponse
             {
-                AccessToken = GenerateToken(user),
-                RefreshToken = await GenerateAndSaveRefreshToken(user)
+                AccessToken = GenerateToken(user)
+                // RefreshToken = await GenerateAndSaveRefreshToken(user)
             };
         }
 

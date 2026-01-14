@@ -1,4 +1,4 @@
-using Application.DTOs.Request;
+using Application.DTOs.Request.Auth;
 using FluentValidation;
 
 namespace Application.Validators
