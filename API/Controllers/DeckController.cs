@@ -2,6 +2,7 @@ using Application.Abstractions.Services;
 using Application.DTOs.Request.Deck;
 using Application.DTOs.Response;
 using Application.DTOs.Response.Deck;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -10,8 +11,10 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class DeckController(IDeckService deckService) : ControllerBase
     {
+        [Authorize]
         [HttpPost("create")]
-        public async Task<ActionResult<ApiResponse<DeckResponse>>> CreateDeck([FromBody] CreateDeckRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult<ApiResponse<DeckResponse>>> CreateDeck([FromForm] CreateDeckMultipartRequest request)
         {
             var response = await deckService.CreateDeckAsync(request);
             return new ApiResponse<DeckResponse>

@@ -1,22 +1,43 @@
+using System.Text.Json;
 using Application.Abstractions.Repositories;
 using Application.Abstractions.Services;
 using Application.DTOs.Request.Deck;
 using Application.DTOs.Response.Deck;
+using Application.Exceptions;
 using Application.Specifications;
 using AutoMapper;
 using Domain.Entities;
+using Microsoft.Extensions.Logging;
+using ApplicationException = Application.Exceptions.ApplicationException;
 
 namespace Application.Services
 {
     public class DeckService(
         IFlashCardRepository flashCardRepository,
         IDeckRepository deckRepository,
-        IMapper mapper
+        ICloudService cloudService,
+        ICurrentUserService currentUserService,
+        IMapper mapper,
+        ILogger<IDeckService> logger
     ) : IDeckService
     {
-        public async Task<DeckResponse> CreateDeckAsync(CreateDeckRequest request)
+        public async Task<DeckResponse> CreateDeckAsync(CreateDeckMultipartRequest request)
         {
-            var deck = mapper.Map<Deck>(request);
+            var deckDto = JsonSerializer.Deserialize<CreateDeckRequest>(request.Deck) ?? throw new ApplicationException(ErrorCode.INTERNAL_ERROR);
+            var imageUrls = await cloudService.UploadAsync(request.Images);
+            var deck = mapper.Map<Deck>(deckDto);
+            deck.OwnerId = currentUserService.UserId ?? throw new ApplicationException(ErrorCode.UNAUTHENTICATED);
+
+            for (int i = 0; i < deckDto.Flashcards.Count; i++)
+            {
+                var card = deckDto.Flashcards[i];
+                var flashcard = deck.Flashcards.ElementAt(i);
+
+                if (card.Front.ImageIndex.HasValue)
+                {
+                    flashcard.Front.ImageUrl = imageUrls[card.Front.ImageIndex.Value];
+                }
+            }
             await deckRepository.AddAsync(deck);
             return mapper.Map<DeckResponse>(deck);
         }

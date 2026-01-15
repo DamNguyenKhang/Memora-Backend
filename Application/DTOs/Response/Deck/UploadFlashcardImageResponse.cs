@@ -2,6 +2,6 @@ namespace Application.DTOs.Response.Deck
 {
     public class UploadFlashcardImageResponse
     {
-        public string ImageUrl { get; set; }
+        public List<string> ImageUrls { get; set; }
     }
 }

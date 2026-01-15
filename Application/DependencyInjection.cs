@@ -20,7 +20,8 @@ namespace Application
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IDeckService, DeckService>();
-            services.AddScoped<ICloudinaryService, CloudinaryService>();
+            services.AddScoped<ICloudService, CloudService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
             return services;
         }
 

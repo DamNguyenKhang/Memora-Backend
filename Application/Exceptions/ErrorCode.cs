@@ -4,6 +4,7 @@ namespace Application.Exceptions
 {
     public enum ErrorCode
     {
+        UNAUTHENTICATED,
         USER_NOT_FOUND,
         INVALID_CREDENTIALS,
         UNAUTHORIZED,
@@ -17,7 +18,7 @@ namespace Application.Exceptions
         EMAIL_NOT_VERIFY,
         INVALID_GOOGLE_TOKEN,
         EMPTY_FILE,
-        FIlE_UPLOAD_ERROR
+        FILE_UPLOAD_ERROR
     }
 
     public record ErrorDetail(int StatusCode, string Message);
@@ -27,6 +28,7 @@ namespace Application.Exceptions
         public static readonly Dictionary<ErrorCode, ErrorDetail> Map = new()
     {
         { ErrorCode.USER_NOT_FOUND, new ErrorDetail(StatusCodes.Status400BadRequest, "User not found") },
+        { ErrorCode.UNAUTHENTICATED, new ErrorDetail(StatusCodes.Status401Unauthorized, "Unauthenticated user") },
         { ErrorCode.INVALID_CREDENTIALS, new ErrorDetail(StatusCodes.Status401Unauthorized, "Invalid credentials") },
         { ErrorCode.UNAUTHORIZED, new ErrorDetail(StatusCodes.Status403Forbidden, "Unauthorized access") },
         { ErrorCode.INTERNAL_ERROR, new ErrorDetail(StatusCodes.Status500InternalServerError, "Internal server error") },
@@ -39,7 +41,7 @@ namespace Application.Exceptions
         { ErrorCode.EMAIL_NOT_VERIFY, new ErrorDetail(StatusCodes.Status403Forbidden, "Email hasn't been verified")},
         { ErrorCode.INVALID_GOOGLE_TOKEN, new ErrorDetail(StatusCodes.Status403Forbidden, "Invalid Google token")},
         { ErrorCode.EMPTY_FILE, new ErrorDetail(StatusCodes.Status400BadRequest, "Uploaded file is empty")},
-        { ErrorCode.FIlE_UPLOAD_ERROR, new ErrorDetail(StatusCodes.Status500InternalServerError, "File upload error")}
+        { ErrorCode.FILE_UPLOAD_ERROR, new ErrorDetail(StatusCodes.Status500InternalServerError, "File upload error")}
     };
 
         public static ErrorDetail Get(ErrorCode code) => Map[code];

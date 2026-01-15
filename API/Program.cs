@@ -47,6 +47,8 @@ namespace API
                     };
                 });
 
+            builder.Services.AddHttpContextAccessor();
+
             builder.Services
                 .AddDatabase(connectionString!)
                 .AddApplication()

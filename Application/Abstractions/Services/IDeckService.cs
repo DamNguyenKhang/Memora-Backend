@@ -5,7 +5,7 @@ namespace Application.Abstractions.Services
 {
     public interface IDeckService
     {
-        Task<DeckResponse> CreateDeckAsync(CreateDeckRequest request);
+        Task<DeckResponse> CreateDeckAsync(CreateDeckMultipartRequest request);
 
         Task<GetListDeckResponse> GetDeckByOwnerId(long userId, GetListDeckRequest request);
     }

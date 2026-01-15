@@ -4,6 +4,6 @@ namespace Application.DTOs.Request.Deck
 {
     public class UploadFlashcardImageRequest
     {
-        public IFormFile File { get; set; }
+        public List<IFormFile> Files { get; set; }
     }
 }

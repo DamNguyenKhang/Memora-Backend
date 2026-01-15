@@ -30,6 +30,8 @@ namespace Application.Services
     ) : IAuthenticationService
     {
         private readonly string jwtKey = configuration["Jwt:SecretKey"]!;
+        private readonly string jwtIssuer = configuration["Jwt:Issuer"]!;
+        private readonly string jwtAudience = configuration["Jwt:Audience"]!;
         private readonly double accessTokenExpirationMinutes = configuration.GetValue<double>("Jwt:AccessTokenExpirationMinutes");
         private readonly double refreshTokenExpirationDays = configuration.GetValue<double>("Jwt:RefreshTokenExpirationDays");
 
@@ -254,8 +256,8 @@ namespace Application.Services
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
             var tokenDescriptor = new JwtSecurityToken(
-                issuer: configuration.GetValue<string>("AppSettings:Issuer"),
-                audience: configuration.GetValue<string>("AppSettings:Audience"),
+                issuer: jwtIssuer,
+                audience: jwtAudience,
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(accessTokenExpirationMinutes),
                 signingCredentials: creds

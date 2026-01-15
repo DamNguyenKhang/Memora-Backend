@@ -8,20 +8,18 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/cloud")]
-    public class CloudinaryController(ICloudinaryService uploadService) : ControllerBase
+    public class CloudinaryController(ICloudService uploadService) : ControllerBase
     {
-        [HttpPost("uploads/flashcard")]
-        public async Task<ActionResult<ApiResponse<UploadFlashcardImageResponse>>> Upload([FromForm] UploadFlashcardImageRequest request)
-        {
-            var response = await uploadService.UploadAsync(request);
+        // [HttpPost("upload/flashcard-image")]
+        // public async Task<ActionResult<ApiResponse<UploadFlashcardImageResponse>>> UploadFlashcardImage([FromForm] UploadFlashcardImageRequest request)
+        // {
+        //     var response = await uploadService.UploadAsync(request);
 
-            return new ApiResponse<UploadFlashcardImageResponse>
-            {
-                Result = response,
-                Message = "Image uploaded successfully",
-            };
-        }
-
-
+        //     return new ApiResponse<UploadFlashcardImageResponse>
+        //     {
+        //         Result = response,
+        //         Message = "Image uploaded successfully",
+        //     };
+        // }
     }
 }
