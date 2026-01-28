@@ -27,8 +27,11 @@ namespace Domain.Entities
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public long? FolderId { get; set; }
 
         // Navigation
+        [ForeignKey(nameof(FolderId))]
+        public Folder? Folder { get; set; }
         public User Owner { get; set; } = null!;
         public ICollection<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
     }

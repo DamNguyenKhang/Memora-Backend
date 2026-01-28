@@ -11,6 +11,6 @@ namespace Application.DTOs.Request.Deck
         public string Deck { get; set; } = null!;
 
         [FromForm(Name = "images")]
-        public List<IFormFile> Images { get; set; } = new();
+        public List<IFormFile>? Images { get; set; } = new();
     }
 }

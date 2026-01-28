@@ -15,6 +15,7 @@ namespace Persistence
             services.AddScoped<IEmailVerificationRepository, EmailVerificationRepository>();
             services.AddScoped<IFlashCardRepository, FlashCardRepository>();
             services.AddScoped<IDeckRepository, DeckRepository>();
+            services.AddScoped<IFolderRepository, FolderRepository>();
             return services;
         }
 

@@ -8,5 +8,7 @@ namespace Application.Abstractions.Services
         Task<DeckResponse> CreateDeckAsync(CreateDeckMultipartRequest request);
 
         Task<GetListDeckResponse> GetDeckByOwnerId(long userId, GetListDeckRequest request);
+
+        Task<DeckResponse?> GetDeckByIdAsync(long deckId);
     }
 }

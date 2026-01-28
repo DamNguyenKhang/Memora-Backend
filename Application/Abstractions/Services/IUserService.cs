@@ -7,5 +7,7 @@ namespace Application.Abstractions.Services
         Task<IEnumerable<UserResponse>?> GetAllAsync();
 
         Task<UserResponse?> GetUserById(long userId);
+
+        Task<UserResponse?> GetCurrentUserAsync();
     }
 }

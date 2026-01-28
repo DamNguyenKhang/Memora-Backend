@@ -11,12 +11,18 @@ namespace Application.Mapper
         {
             CreateMap<FlashcardSideRequest, FlashcardSide>();
 
+            CreateMap<FlashcardSide, FlashcardSideResponse>();
+
             CreateMap<CreateFlashcardRequest, Flashcard>();
+
+            CreateMap<Flashcard, FlashcardResponse>();
 
             CreateMap<CreateDeckRequest, Deck>();
 
             CreateMap<Deck, DeckResponse>()
             .ForMember(dest => dest.FlashcardCount, opt => opt.MapFrom(src => src.Flashcards.Count));
+
+            CreateMap<User, OwnerDeckResponse>();
         }
     }
 }

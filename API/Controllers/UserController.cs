@@ -23,11 +23,10 @@ namespace API.Controllers
         [HttpGet("my-info")]
         public async Task<ActionResult<ApiResponse<UserResponse>>> GetMyInfo()
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             return new ApiResponse<UserResponse>
             {
-                Result = await userService.GetUserById(userId),
-                Message = "Get user successfully"
+                Result = await userService.GetCurrentUserAsync(),
+                Message = "Get my information successfully"
             };
         }
     }

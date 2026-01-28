@@ -24,7 +24,7 @@ namespace API.Controllers
             };
         }
 
-        [HttpGet("get-deck/{userId}")]
+        [HttpGet("get-decks/{userId}")]
         public async Task<ActionResult<ApiResponse<GetListDeckResponse>>> GetDeckByOwnerId(long userId, [FromQuery] GetListDeckRequest request)
         {
             var response = await deckService.GetDeckByOwnerId(userId, request);
@@ -32,6 +32,17 @@ namespace API.Controllers
             {
                 Result = response,
                 Message = "Create deck successfully"
+            };
+        }
+
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<ApiResponse<DeckResponse>>> GetDeckById(long Id)
+        {
+            var response = await deckService.GetDeckByIdAsync(Id);
+            return new ApiResponse<DeckResponse>
+            {
+                Result = response,
+                Message = "Get deck detail successfully"
             };
         }
 

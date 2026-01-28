@@ -21,6 +21,7 @@ namespace Application
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IDeckService, DeckService>();
             services.AddScoped<ICloudService, CloudService>();
+            services.AddScoped<IFolderService, FolderService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             return services;
         }

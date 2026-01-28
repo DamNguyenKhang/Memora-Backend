@@ -14,6 +14,9 @@ namespace Application.DTOs.Request.Deck
         [JsonPropertyName("description")]
         public string? Description { get; set; }
 
+        [JsonPropertyName("folderId")]
+        public long? FolderId { get; set; }
+
         [JsonPropertyName("tags")]
         public List<string>? Tags { get; set; }
 

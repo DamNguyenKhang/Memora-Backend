@@ -24,7 +24,11 @@ namespace Application.Services
         public async Task<DeckResponse> CreateDeckAsync(CreateDeckMultipartRequest request)
         {
             var deckDto = JsonSerializer.Deserialize<CreateDeckRequest>(request.Deck) ?? throw new ApplicationException(ErrorCode.INTERNAL_ERROR);
-            var imageUrls = await cloudService.UploadAsync(request.Images);
+            var imageUrls = new List<string>(); ;
+            if (request.Images != null && request.Images.Any())
+            {
+                imageUrls = await cloudService.UploadAsync(request.Images);
+            }
             var deck = mapper.Map<Deck>(deckDto);
             deck.OwnerId = currentUserService.UserId ?? throw new ApplicationException(ErrorCode.UNAUTHENTICATED);
 
@@ -35,7 +39,12 @@ namespace Application.Services
 
                 if (card.Front.ImageIndex.HasValue)
                 {
-                    flashcard.Front.ImageUrl = imageUrls[card.Front.ImageIndex.Value];
+                    var index = card.Front.ImageIndex.Value;
+
+                    if (index >= 0 && index < imageUrls.Count)
+                    {
+                        flashcard.Front.ImageUrl = imageUrls[index];
+                    }
                 }
             }
             await deckRepository.AddAsync(deck);
@@ -56,6 +65,14 @@ namespace Application.Services
                 TotalItems = totalItems,
                 Decks = mapper.Map<IEnumerable<DeckResponse>>(items)
             };
+        }
+
+        public async Task<DeckResponse?> GetDeckByIdAsync(long deckId)
+        {
+            var deck = await deckRepository.GetByIdAsync(deckId, d => d.Flashcards, d => d.Owner) ?? throw new ApplicationException(ErrorCode.DECK_NOT_FOUND);
+            var deckResponse = mapper.Map<DeckResponse>(deck);
+            deckResponse.IsOwner = deck.OwnerId == currentUserService.UserId;
+            return deckResponse;
         }
     }
 }

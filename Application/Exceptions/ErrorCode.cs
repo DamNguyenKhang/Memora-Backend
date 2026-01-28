@@ -18,7 +18,8 @@ namespace Application.Exceptions
         EMAIL_NOT_VERIFY,
         INVALID_GOOGLE_TOKEN,
         EMPTY_FILE,
-        FILE_UPLOAD_ERROR
+        FILE_UPLOAD_ERROR,
+        DECK_NOT_FOUND
     }
 
     public record ErrorDetail(int StatusCode, string Message);
@@ -41,7 +42,8 @@ namespace Application.Exceptions
         { ErrorCode.EMAIL_NOT_VERIFY, new ErrorDetail(StatusCodes.Status403Forbidden, "Email hasn't been verified")},
         { ErrorCode.INVALID_GOOGLE_TOKEN, new ErrorDetail(StatusCodes.Status403Forbidden, "Invalid Google token")},
         { ErrorCode.EMPTY_FILE, new ErrorDetail(StatusCodes.Status400BadRequest, "Uploaded file is empty")},
-        { ErrorCode.FILE_UPLOAD_ERROR, new ErrorDetail(StatusCodes.Status500InternalServerError, "File upload error")}
+        { ErrorCode.FILE_UPLOAD_ERROR, new ErrorDetail(StatusCodes.Status500InternalServerError, "File upload error")},
+        { ErrorCode.DECK_NOT_FOUND, new ErrorDetail(StatusCodes.Status400BadRequest, "Deck not found") }
     };
 
         public static ErrorDetail Get(ErrorCode code) => Map[code];

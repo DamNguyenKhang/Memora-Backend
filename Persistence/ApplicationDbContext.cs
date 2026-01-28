@@ -20,24 +20,23 @@ namespace Persistence
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasIndex(u => u.Email)
+                    .IsUnique();
 
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Username)
-                .IsUnique();
+                entity.HasIndex(u => u.Username)
+                    .IsUnique();
 
-            modelBuilder.Entity<User>()
-                .Property(u => u.DateOfBirth)
-                .HasColumnType("timestamp without time zone")
-                .IsRequired(false);
+                entity.Property(u => u.DateOfBirth)
+                    .HasColumnType("timestamp without time zone")
+                    .IsRequired(false);
 
-            modelBuilder.Entity<User>()
-                .Property(u => u.Role)
-                .HasConversion<string>()
-                .HasMaxLength(10)
-                .IsRequired();
+                entity.Property(u => u.Role)
+                    .HasConversion<string>()
+                    .HasMaxLength(20)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity<UserFlashcardProgress>()
                 .HasIndex(p => new { p.UserId, p.FlashcardId })
@@ -51,6 +50,12 @@ namespace Persistence
                     .WithMany(u => u.Decks)
                     .HasForeignKey(d => d.OwnerId)
                     .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(d => d.Folder)
+                    .WithMany(f => f.Decks)
+                    .HasForeignKey(d => d.FolderId)
+                    .IsRequired(false)
+                    .OnDelete(DeleteBehavior.SetNull);
 
                 entity.HasQueryFilter(d => !d.IsDeleted);
 
@@ -96,6 +101,9 @@ namespace Persistence
 
                 entity.HasQueryFilter(f => !f.IsDeleted);
             });
+
+            modelBuilder.Entity<Folder>()
+                .HasQueryFilter(f => !f.IsDeleted);
 
 
             modelBuilder.Entity<UserFlashcardProgress>()

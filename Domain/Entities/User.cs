@@ -42,5 +42,6 @@ namespace Domain.Entities
         public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
         public ICollection<EmailVerification> EmailVerifications { get; set; } = new List<EmailVerification>();
+        public ICollection<Folder> Folders { get; set; } = new List<Folder>();
     }
 }
