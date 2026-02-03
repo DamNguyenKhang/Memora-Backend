@@ -16,6 +16,7 @@ namespace Persistence
             services.AddScoped<IFlashCardRepository, FlashCardRepository>();
             services.AddScoped<IDeckRepository, DeckRepository>();
             services.AddScoped<IFolderRepository, FolderRepository>();
+            services.AddScoped<IUserFlashcardProgressRepository, UserFlashcardProgressRepository>();
             return services;
         }
 

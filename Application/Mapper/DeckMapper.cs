@@ -1,5 +1,6 @@
 using Application.DTOs.Request.Deck;
 using Application.DTOs.Response.Deck;
+using Application.DTOs.Response.UserProgress;
 using AutoMapper;
 using Domain.Entities;
 
@@ -19,8 +20,11 @@ namespace Application.Mapper
 
             CreateMap<CreateDeckRequest, Deck>();
 
-            CreateMap<Deck, DeckResponse>()
-            .ForMember(dest => dest.FlashcardCount, opt => opt.MapFrom(src => src.Flashcards.Count));
+            CreateMap<Deck, DeckResponse>();
+
+            CreateMap<Deck, DeckLearningDetailResponse>();
+
+            CreateMap<Deck, GetListDeckResponse>();
 
             CreateMap<User, OwnerDeckResponse>();
         }

@@ -15,6 +15,7 @@ namespace Application.DTOs.Request.Deck
         public string? Description { get; set; }
 
         [JsonPropertyName("folderId")]
+        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
         public long? FolderId { get; set; }
 
         [JsonPropertyName("tags")]

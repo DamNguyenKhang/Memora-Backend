@@ -5,32 +5,39 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
 {
-    public abstract class Repository<T, TKey>(ApplicationDbContext context) : IRepository<T, TKey> where T : class, IEntity<TKey>
+    public abstract class Repository<T, TKey> : IRepository<T, TKey> where T : class, IEntity<TKey>
     {
-        protected readonly DbSet<T> _dbSet = context.Set<T>();
+        protected readonly DbSet<T> _dbSet;
+        protected readonly ApplicationDbContext _context;
+
+        public Repository(ApplicationDbContext context)
+        {
+            _context = context;
+            _dbSet = context.Set<T>();
+        }
 
         public Task SaveAsync()
         {
-            return context.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
-        
+
         public async Task<T> AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return entity;
         }
 
         public async Task<int> AddRangeAsync(IEnumerable<T> items)
         {
             await _dbSet.AddRangeAsync(items);
-            return await context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(T entity)
         {
             _dbSet.Remove(entity);
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<T>> GetAllByIdsAsync(IEnumerable<TKey> ids, params Expression<Func<T, object>>[] includes)
@@ -64,7 +71,7 @@ namespace Persistence.Repositories
         public async Task<T> UpdateAsync(T entity)
         {
             _dbSet.Update(entity);
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return entity;
         }
     }

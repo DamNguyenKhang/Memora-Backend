@@ -11,6 +11,15 @@ namespace Persistence.Repositories
         {
         }
 
+        public async Task<Dictionary<long, int>> GetTotalCardCountByDeckIdsAsync(List<long> deckIds)
+        {
+            return await _context.Flashcards
+                .Where(f => deckIds.Contains(f.DeckId))
+                .GroupBy(f => f.DeckId)
+                .Select(g => new { DeckId = g.Key, Total = g.Count() })
+                .ToDictionaryAsync(x => x.DeckId, x => x.Total);
+        }
+
         public async Task<(List<Deck>, int)> GetPagedAsync(
             ISpecification<Deck> spec,
             int page,

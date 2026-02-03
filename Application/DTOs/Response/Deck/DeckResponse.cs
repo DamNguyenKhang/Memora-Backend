@@ -9,7 +9,7 @@ namespace Application.DTOs.Response.Deck
         public string Title { get; set; } = null!;
         public bool IsPublic { get; set; }
         public List<string>? Tags { get; set; } = new();
-        public int FlashcardCount { get; set; }
+        public int TotalCardCount { get; set; }
         public List<FlashcardResponse>? Flashcards { get; set; }
 
         public OwnerDeckResponse Owner { get; set; } = null!;

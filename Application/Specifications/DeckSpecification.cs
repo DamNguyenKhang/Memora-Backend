@@ -9,10 +9,10 @@ namespace Application.Specifications
             Add(d => d.OwnerId == ownerId);
         }
 
-        // public void WithKeyword(string keyword)
-        // {
-        //     Add(d => d.Name.Contains(keyword));
-        // }
+        public void WithFolder(long folderId)
+        {
+            Add(d => d.FolderId == folderId);
+        }
 
         public void WithPublic(bool isPublic)
         {

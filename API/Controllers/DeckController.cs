@@ -1,7 +1,9 @@
 using Application.Abstractions.Services;
 using Application.DTOs.Request.Deck;
+using Application.DTOs.Request.UserProgress;
 using Application.DTOs.Response;
 using Application.DTOs.Response.Deck;
+using Application.DTOs.Response.UserProgress;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +11,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DeckController(IDeckService deckService) : ControllerBase
+    public class DeckController(IDeckService deckService, IStudyService studyService) : ControllerBase
     {
         [Authorize]
         [HttpPost("create")]
@@ -32,6 +34,17 @@ namespace API.Controllers
             {
                 Result = response,
                 Message = "Create deck successfully"
+            };
+        }
+
+        [HttpGet("get-decks-process/{userId}")]
+        public async Task<ActionResult<ApiResponse<GetListDeckProcessResponse>>> GetDecksWithProgress(long userId, [FromQuery] GetListDeckProcessRequest request)
+        {
+            var response = await studyService.GetDecksWithProgressAsync(userId, request);
+            return new ApiResponse<GetListDeckProcessResponse>
+            {
+                    Result = response,
+                    Message = "Get decks with progress successfully"
             };
         }
 
